@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Scene.h"
 #include <gl/glut.h>
 #include "utils.h"
@@ -5,6 +6,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "Logic.h"
+#include <string>
 using namespace GraphUtils;
 namespace TetrisGame {
 
@@ -39,6 +41,7 @@ namespace TetrisGame {
     }
 
     void Scene::on_paint() {
+        char GameText = logic.getScore();
         // визначаємо блакитний колір для очищення:
         glClearColor(0, 0.5, 0.5, 0);
 
@@ -74,13 +77,15 @@ namespace TetrisGame {
         glMatrixMode(GL_PROJECTION);
 
         glLoadIdentity();
+        char text[128];
+        sprintf(text, "Time: %d sec. Score: %i", time, logic.getScore());
 
         // Для відображення тексту, краще використовувати ортографічну проекцію:
         glOrtho(0, 1, 0, 1, -1, 1);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glColor3f(1, 1, 0); // жовтий текст
-        drawString(GLUT_BITMAP_TIMES_ROMAN_24, "FFFFFFF", 0.01, 0.95);
+        drawString(GLUT_BITMAP_TIMES_ROMAN_24, text, 0.01, 0.95);
         glPopMatrix();
 
         // Включаємо режим роботи з матрицею проекцій:
@@ -113,7 +118,9 @@ namespace TetrisGame {
         Cube(5.5, 0, 0.5, 0.95, 0.95, row, diffGray, ambiGray, specGray).draw();
 
 
-        
+        for (int i = 0; i < 4; i++) {
+            Cube((logic.a[i].y)-(float(coll) / 2 - 0.5), 0, (logic.a[i].x)-(float(row) / 2), 0.95, 0.95, 0.95, diffBlue, ambiBlue, specBlue).draw();
+        }
         
 
         for (int i = 0; i < row; i++) {
@@ -189,14 +196,10 @@ namespace TetrisGame {
     {
         switch (key) {
         case GLUT_KEY_UP:   // наближення
-            if (distZ > -1.7)
-            {
-                break;
-            }
-            distZ += 0.1;
+            logic.tryToRotate(gameField, row, coll);
             break;
         case GLUT_KEY_DOWN: // віддалення
-            logic.downFigure(gameField, row, coll);
+            logic.downFigure( gameField,  row,  coll);
             break;
         case GLUT_KEY_LEFT:
             logic.moveFigure(1, gameField, row, coll);
@@ -226,7 +229,7 @@ namespace TetrisGame {
         }
         if (gametic >= 20) {
             gametic = 0;
-            logic.downFigure(gameField,row,coll);
+            logic.downFigure(gameField, row, coll);
         }
         on_paint();     // здійснюємо перемалювання вікна
     }

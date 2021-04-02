@@ -1,6 +1,6 @@
 #ifndef Scene_h
 #define Scene_h
-
+#include "Logic.h"
 namespace TetrisGame
 {
 
@@ -14,6 +14,8 @@ namespace TetrisGame
 
     class Scene
     {
+
+        friend Logic;
 
         int score;
         int **gameField; // ігрове поле
@@ -36,7 +38,6 @@ namespace TetrisGame
         void on_motion(int x, int y);
         void on_special(int key, int x, int y);
         void on_timer(int value);
-        
        // bool moveDisk(int xFrom, int zFrom, int xTo, int zTo);
     private:
         void initialize();
