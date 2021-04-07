@@ -1,0 +1,4 @@
+﻿  Logic.cpp
+D:\Универ\OpenGL\Tetris-OpenGL\Project1\Project1\Logic.cpp(10,13): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+D:\Универ\OpenGL\Tetris-OpenGL\Project1\Project1\Logic.cpp(63,10): warning C4101: tempA: неиспользованная локальная переменная
+  Project1.vcxproj -> D:\Универ\OpenGL\Tetris-OpenGL\Project1\Debug\Project1.exe
